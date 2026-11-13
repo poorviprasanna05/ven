@@ -24,19 +24,19 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'mvn package'
+                bat 'mvn package'
             }
         }
 
         stage('Run Application') {
             steps {
-                sh 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
+                bat 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
             }
         }
     }
