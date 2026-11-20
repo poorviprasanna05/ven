@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -8,56 +9,43 @@ pipeline {
 
     stages {
 
+        // Stage 1: Checkout source code
         stage('Checkout') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/poorviprasanna05/ven.git',
-                    credentialsId: 'github-token'
+                    credentialsId: 'Github-Token'
+
+                echo 'Source code downloaded successfully'
             }
         }
 
+        // Stage 2: Build the application
         stage('Build') {
             steps {
                 bat 'mvn clean compile'
             }
         }
 
+        // Stage 3: Execute test cases
         stage('Test') {
             steps {
                 bat 'mvn test'
             }
         }
 
+        // Stage 4: Package the application
         stage('Package') {
             steps {
                 bat 'mvn package'
             }
         }
 
+        // Stage 5: Run the application
         stage('Run Application') {
             steps {
                 bat 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
             }
-        }
-    }
-
-    
-    post {
-
-        success {
-            emailext (
-                subject: "SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
-                body: "Build succeeded!\nCheck: ${BUILD_URL}",
-                to: "naveenmys64@gmail.com"
-            )
-        }
-
-        failure {
-            emailext (
-                subject: "FAILED: ${JOB_NAME} #${BUILD_NUMBER}",
-                body: "Build failed!\nCheck: ${BUILD_URL}",
-                to: "naveenmys64@gmail.com"
-            )
         }
     }
 }
