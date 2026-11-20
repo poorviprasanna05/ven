@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Naveen04jan/ven.git',
+                    url: 'https://github.com/poorviprasanna05/ven.git',
                     credentialsId: 'Github-Token'
 
                 echo 'Source code downloaded successfully'
@@ -23,28 +23,28 @@ pipeline {
         // Stage 2: Build the application
         stage('Build') {
             steps {
-                bat 'mvn clean compile'
+                sh 'mvn clean compile'
             }
         }
 
         // Stage 3: Execute test cases
         stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
             }
         }
 
         // Stage 4: Package the application
         stage('Package') {
             steps {
-                bat 'mvn package'
+                sh 'mvn package'
             }
         }
 
         // Stage 5: Run the application
         stage('Run Application') {
             steps {
-                bat 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
+                sh 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
             }
         }
     }
